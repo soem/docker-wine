@@ -2,9 +2,8 @@ FROM pritunl/archlinux
 MAINTAINER ChihChieh Huang <soem.hcc@gmail.com>
 
 RUN \
-    sed -i 's/^#\[multilib\]/[multilib]/' /etc/pacman.conf && \
-    sed -i '/\[multilib\]/!b;n;c\Include = /etc/pacman.d/mirrorlist' /etc/pacman.conf && \
-    echo 'Server = http://ftp.yzu.edu.tw/Linux/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
+    sed -i '/^#\[multilib\]$/!b;s/#//;n;s/#//' /etc/pacman.conf && \
+    echo 'Server = https://mirrors.ocf.berkeley.edu/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 
 
 # Don't update
@@ -80,9 +79,6 @@ RUN \
     rm -r /var/lib/pacman/sync/*
 
 RUN \
-    # Enable multilib
-    sed -i '/^#\[multilib\]$/!b;s/#//;n;s/#//' /etc/pacman.conf && \
-
     pacman -Syy --noconfirm && \
 
     # Install remaining packages
