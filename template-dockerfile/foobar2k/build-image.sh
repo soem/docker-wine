@@ -1,0 +1,1 @@
+docker build -t archlinux-wine-foobar2k .
