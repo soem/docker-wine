@@ -141,11 +141,14 @@ RUN \
 ARG uid=1000
 ARG gid=1000
 ARG audio_gid=92
+ARG user_gid=100
 
 RUN \
     pacman -Syy --noconfirm && \
     pacman --noconfirm -S sudo && \
     echo "docker ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/docker && \
+    groupadd -g ${audio_gid} audio && \
+    groupadd -g ${user_gid} users && \
     groupadd -g ${gid} docker && \
     useradd -m -g docker -G ${audio_gid} docker
 
